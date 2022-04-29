@@ -16,8 +16,5 @@ let grammar = pleft pcircles peof
 let rec eval(e: Expr) (x: int) : string =
     match e with 
     | Shapes [] -> ""
-    | Shapes (s::ss) -> "<circle x = " + (string x) + " y = 1 >\n " + (eval (Shapes ss) (x+10))
-//| r::rr -> "<rect x = " + (string x) + "y = " + (string y) + "height = " + (string h) + ">\n"
-    // | _ -> failwith "Not implemented"
-
- //f in front of print f prints to a file
+    | Shapes (s::ss) -> "\t<circle cx='" + (string x) + "' cy='100' r='80' fill='green' />\n" + (eval (Shapes ss) (x + 100)) 
+    
