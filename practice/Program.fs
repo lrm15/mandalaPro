@@ -9,7 +9,7 @@ let main argv =
     sw.WriteLine("<svg version='1.1'\n\t width='300' height='200'\n\t xmlns='http://www.w3.org/2000/svg'>")
 
     // sw.WriteLine("<svg>") // start tag
-    sw.WriteLine(eval (Shapes [Circle; Circle; Circle]) 50)
+    sw.WriteLine(eval (Shapes [Circle; Circle; Circle]) 100 100 80)
     sw.WriteLine("</svg>") // end tag
 
     0
