@@ -7,10 +7,10 @@ type Color =
 | Blue 
 // | Grey 
 // | Indigo 
-// | Green
+| Green
 // | Turquoise
 // | Blueviolet
-// | Red
+| Red
 // | White
 // | Pink
 // | Purple
@@ -36,24 +36,40 @@ let pexpr, pexprImpl = recparser()
 (*
  * Helper method to parse the color blue. 
  *
- * @param 
- * @return   
+ * @param   A string. 
+ * @return  The Color Blue. 
  *)
 let pblue = pstr "blue" |>> (fun _ -> Blue)
+
+(*
+ * Helper method to parse the color red. 
+ *
+ * @param   A string. 
+ * @return  The Color Red. 
+ *)
+let pred = pstr "red" |>> (fun _ -> Red)
+
+(*
+ * Helper method to parse the color green. 
+ *
+ * @param   A string. 
+ * @return  The Color Green. 
+ *)
+let pgreen = pstr "green" |>> (fun _ -> Green)
 
 (* 
  * Helper method to parse any permissible color. 
  * 
- * @param 
- * @return 
+ * @param    A string.  
+ * @return   A Color. 
  *)
-let pcolor = pblue // <|> etc
+let pcolor = pblue <|> pred <|> pgreen 
 
 (*
  * Helper method to parse the fill color for a shape. 
  *  
- * @param 
- * @return 
+ * @param    A string. 
+ * @return   A Color. 
  *)
 let pfillcolor =
     pbetween 
@@ -64,8 +80,8 @@ let pfillcolor =
 (*
  * Helper method to parse the stroke color for a shape. 
  *  
- * @param 
- * @return 
+ * @param   A string. 
+ * @return  A Color. 
  *)
 let pstrokecolor =
     pbetween 
@@ -73,21 +89,22 @@ let pstrokecolor =
         (pstr "'; ")
         pcolor 
 
+(* 
+ * Helper method to parse a number. 
+ * 
+ * @param    A string. 
+ * @return   A Num. 
+ *)
 let pnumber =
     pmany1 pdigit
     |>> (fun ds -> Num (int (stringify ds)))
     <!> "number"
 
-// let rec psizehelper2 num xs = 
-//     match xs with
-//     | [] -> num  
-//     | x::xs' -> (num * 10) + x + (psizehelper2 num xs') 
-
 (*
  * Helper method to parse the size information for a shape. 
  * 
- * @param 
- * @return 
+ * @param    A string. 
+ * @return   A Num. 
  *)
 let psize = 
     pbetween 
@@ -115,6 +132,12 @@ let psize =
 //                 (fun (x, y) -> (x, y)))                
 //             (fun (x, (y, z)) -> Circle (x, y, z)))
 
+(* 
+ * A helper method to parse a Circle and the parameters for the Circle constructor. 
+ * 
+ * @param    A string. 
+ * @return   A Circle with the specified color and size. 
+ *)
 let pcircle = 
     pbetween 
         (pstr "Circle (")
@@ -125,39 +148,31 @@ let pcircle =
             (fun (x, y) -> Circle (x, y))
         )
 
+(* 
+ * A helper method to parse an empty Mandala. 
+ * 
+ * @param    A string. 
+ * @return   The empty string. 
+ *)
 let pempty = 
     pstr ""
-
-
-(* 
- * Helper method to parse a circle and its information. 
- *
- * @param 
- * @return 
- *)
-// let pcircle = 
-//     pbetween 
-//         (pstr "Circle (")
-//         (pchar ')')
-//         pspecs |>> Circle (x, y, z)
 
 (* 
  * Helper method to parse a shape. 
  * 
- * @param 
- * @return 
+ * @param    A string. 
+ * @return   A Shape. 
  *)
 let pshape = pcircle // <|> psquare ...
 
+(* 
+ * A helper method to parse a Mandala of Expr type. A Mandala consists of a Shape and its specifications. 
+ * 
+ * @param    A string. 
+ * @return   A Mandala. 
+ *)
 let pmandala = pshape |>> (fun x -> Mandala (x))
 
-(* 
- * Helper method to parse a Mandala of Expr type. A Mandala contains a list of Shapes and their information. 
- * 
- * @param 
- * @return   
- *)
-// pexprImpl := pmany1 pshape |>> (fun x -> Mandala(x)) // want to apply pshape to every shape within a list  
 pexprImpl := pmandala
 
 let grammar: Parser<Expr> = pleft pexpr peof 
@@ -165,7 +180,7 @@ let grammar: Parser<Expr> = pleft pexpr peof
 (*
  * Evaluates whether the given input is a valid part of the grammar of type Parser<Expr>. 
  *  
- * @param A string. 
+ * @param  A string. 
  * @return Some res if successful and None if failure. 
  *)
 let parse(s) : Expr option = 
@@ -174,11 +189,11 @@ let parse(s) : Expr option =
     | Failure(_, _) -> None
 
 (*
-* Turns an abstract syntax tree (AST) into a string. 
-*
-* @param  An AST
-* @return A string representation of the AST fed into the function.
-*)
+ * Turns an abstract syntax tree (AST) into a string. 
+ *
+ * @param  An Expr. 
+ * @return A string representation of the AST fed into the function.
+ *)
 let rec prettyprint(e: Expr) : string =
     match e with
     | Empty -> ""
