@@ -121,10 +121,25 @@ let pcircle =
  *)
 let pshape = pcircle // <|> psquare ...
 
-// let pgrey = pstr "grey" |>> (fun _ -> Grey)
-let pcircle = pstr "circle" |>> (fun _ -> Circle)
-// let psquare = pstr "square" |>> (fun _ -> Square)
+(* 
+ * Helper method to parse a Mandala of Expr type. A Mandala contains a list of Shapes and their information. 
+ * 
+ * @param 
+ * @return   
+ *)
+pexprImpl := pmany1 pshape // want to apply pshape to every shape within a list  
 
+let grammar: Parser<Expr> = pleft pexpr peof 
 
+(*
+ * Evaluates whether the given string is a valid part of the grammar of type Parser<Expr>. 
+ *  
+ * @param A string. 
+ * @return Some res if successful and None if failure. 
+ *)
+ let parse(s : string) = 
+    match grammar s with 
+    | Success(res,_) -> Some res
+    | Failure(_, _) -> None 
 
 
