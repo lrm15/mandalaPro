@@ -170,12 +170,8 @@ let grammar: Parser<Expr> = pleft pexpr peof
  *)
 let parse(s) : Expr option = 
     match (grammar s) with 
-    | Success(res,_) -> Some res 
-    | Failure(_, _) -> None 
-// let parse(s) = 
-//     match (grammar s) with 
-//     | Success(res,_) -> printf("success")
-//     | Failure(_, _) -> printf("failure")
+    | Success(res, _) -> Some res 
+    | Failure(_, _) -> None
 
 (*
 * Turns an abstract syntax tree (AST) into a string. 
@@ -188,6 +184,4 @@ let rec prettyprint(e: Expr) : string =
     | Empty -> ""
     | Mandala(shape) -> 
         match shape with 
-        | Circle(x, y) -> "Circle (stroke_color = '" + x.ToString() + "'; size = " + y.ToString() + ";) " // + (prettyprint (Mandala (shapelist.Tail))) 
-
-
+        | Circle(x, y) -> "(Mandala (Circle (" + x.ToString() + ", " + y.ToString() + "))))" // + (prettyprint (Mandala (shapelist.Tail))) 
