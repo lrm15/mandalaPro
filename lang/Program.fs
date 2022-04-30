@@ -7,7 +7,7 @@ open ProjectInterpreter
 [<EntryPoint>]
 let main argv = 
 
-    if argv.Length < 1 then printf "\n\nUsage: \n\tdotnet run <Shape (stroke_color = 'Color'; size = Num;)> \n\tMandalaPro will generate a Mandala just for you!\n\n"
+    if argv.Length < 1 then printf "\n\nUsage: \n\tdotnet run <Shape (stroke_color = 'Color'; size = Num;)> \n\tMandalaPro will generate a Mandala just for you!\n\tExample: dotnet run Square (stroke_color = 'green'; size = 200;)\n\n\tSee shape.svg for output.\n\n"
     else 
         let input = argv.[0]
         let input' = prepare input 
