@@ -19,7 +19,7 @@ type Color =
 
 (* A primitive type representing the size of a shape *)
 type Size = 
-| Num of int  
+| Num of int
 
 (* A primitive type representing permissible shapes *)
 type Shape = 
@@ -28,7 +28,8 @@ type Shape =
 
 (* A combining form representing a mandala *)
 type Expr = 
-| Mandala of Shape list  
+| Empty 
+| Mandala of Shape 
 
 let pexpr, pexprImpl = recparser()
 
@@ -46,7 +47,7 @@ let pblue = pstr "blue" |>> (fun _ -> Blue)
  * @param 
  * @return 
  *)
- let pcolor = pblue // <|> etc
+let pcolor = pblue // <|> etc
 
 (*
  * Helper method to parse the fill color for a shape. 
@@ -57,7 +58,7 @@ let pblue = pstr "blue" |>> (fun _ -> Blue)
 let pfillcolor =
     pbetween 
         (pstr "fill_color = '")
-        (pchar "';")
+        (pstr "';")
         pcolor 
 
 (*
@@ -69,8 +70,18 @@ let pfillcolor =
 let pstrokecolor =
     pbetween 
         (pstr "stroke_color = '")
-        (pstr "';")
+        (pstr "'; ")
         pcolor 
+
+let pnumber =
+    pmany1 pdigit
+    |>> (fun ds -> Num (int (stringify ds)))
+    <!> "number"
+
+// let rec psizehelper2 num xs = 
+//     match xs with
+//     | [] -> num  
+//     | x::xs' -> (num * 10) + x + (psizehelper2 num xs') 
 
 (*
  * Helper method to parse the size information for a shape. 
@@ -82,7 +93,7 @@ let psize =
     pbetween 
         (pstr "size = ")
         (pchar ';')
-        pdigit 
+        pnumber
 
 (*
  * Helper method to parse the color and size information for a shape. 
@@ -91,14 +102,31 @@ let psize =
  * @param 
  * @return  
  *)
-let pspecs = 
-    pseq 
-        pfillcolor
-        pseq 
-            pstrokecolor
-            psize 
-            (fun something ?)
-        (want to return specs in a form that can be passed to a shape constructor)
+// let pcircle = 
+//     pbetween 
+//         (pstr "Circle (")
+//         (pchar ')')
+//         (pseq 
+//             (psize)
+//             (pseq 
+//                 (pfillcolor)
+//                 (pstrokecolor)
+//                //  (psize)
+//                 (fun (x, y) -> (x, y)))                
+//             (fun (x, (y, z)) -> Circle (x, y, z)))
+
+let pcircle = 
+    pbetween 
+        (pstr "Circle (")
+        (pchar ')')
+        (pseq 
+            (pstrokecolor)
+            (psize)
+            (fun (x, y) -> Circle (x, y))
+        )
+
+let pempty = 
+    pstr ""
 
 
 (* 
@@ -107,11 +135,11 @@ let pspecs =
  * @param 
  * @return 
  *)
-let pcircle = 
-    pbetween 
-        (pstr "Circle (")
-        (pchar ')')
-        pspecs |>> Circle (x, y, z)
+// let pcircle = 
+//     pbetween 
+//         (pstr "Circle (")
+//         (pchar ')')
+//         pspecs |>> Circle (x, y, z)
 
 (* 
  * Helper method to parse a shape. 
@@ -121,25 +149,45 @@ let pcircle =
  *)
 let pshape = pcircle // <|> psquare ...
 
+let pmandala = pshape |>> (fun x -> Mandala (x))
+
 (* 
  * Helper method to parse a Mandala of Expr type. A Mandala contains a list of Shapes and their information. 
  * 
  * @param 
  * @return   
  *)
-pexprImpl := pmany1 pshape // want to apply pshape to every shape within a list  
+// pexprImpl := pmany1 pshape |>> (fun x -> Mandala(x)) // want to apply pshape to every shape within a list  
+pexprImpl := pmandala
 
 let grammar: Parser<Expr> = pleft pexpr peof 
 
 (*
- * Evaluates whether the given string is a valid part of the grammar of type Parser<Expr>. 
+ * Evaluates whether the given input is a valid part of the grammar of type Parser<Expr>. 
  *  
  * @param A string. 
  * @return Some res if successful and None if failure. 
  *)
- let parse(s : string) = 
-    match grammar s with 
-    | Success(res,_) -> Some res
+let parse(s) : Expr option = 
+    match (grammar s) with 
+    | Success(res,_) -> Some res 
     | Failure(_, _) -> None 
+// let parse(s) = 
+//     match (grammar s) with 
+//     | Success(res,_) -> printf("success")
+//     | Failure(_, _) -> printf("failure")
+
+(*
+* Turns an abstract syntax tree (AST) into a string. 
+*
+* @param  An AST
+* @return A string representation of the AST fed into the function.
+*)
+let rec prettyprint(e: Expr) : string =
+    match e with
+    | Empty -> ""
+    | Mandala(shape) -> 
+        match shape with 
+        | Circle(x, y) -> "Circle (stroke_color = '" + x.ToString() + "'; size = " + y.ToString() + ";) " // + (prettyprint (Mandala (shapelist.Tail))) 
 
 
