@@ -1,6 +1,7 @@
 <svg version='1.1'
 	 width='500' height='500'
 	 xmlns='http://www.w3.org/2000/svg'>
-	<circle cx='250' cy='250' r='250' fill='none' stroke='green' />
+	<circle cx='250' cy='250' r='100' fill='none' stroke='black' />
+	<rect x="150" y="150" width="200" height="200" stroke='black' fill='none' />
 
 </svg>

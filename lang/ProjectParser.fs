@@ -149,6 +149,22 @@ let pcircle =
         )
 
 (* 
+ * A helper method to parse a Square and the parameters for the Square constructor. 
+ * 
+ * @param    A string. 
+ * @return   A Square with the specified color and size. 
+ *)
+let psquare = 
+    pbetween 
+        (pstr "Square (")
+        (pchar ')')
+        (pseq 
+            (pstrokecolor)
+            (psize)
+            (fun (x, y) -> Square (x, y))
+        )
+
+(* 
  * A helper method to parse an empty Mandala. 
  * 
  * @param    A string. 
@@ -163,7 +179,7 @@ let pempty =
  * @param    A string. 
  * @return   A Shape. 
  *)
-let pshape = pcircle // <|> psquare ...
+let pshape = pcircle <|> psquare 
 
 (* 
  * A helper method to parse a Mandala of Expr type. A Mandala consists of a Shape and its specifications. 
@@ -199,4 +215,5 @@ let rec prettyprint(e: Expr) : string =
     | Empty -> ""
     | Mandala(shape) -> 
         match shape with 
-        | Circle(x, y) -> "(Mandala (Circle (" + x.ToString() + ", " + y.ToString() + "))))" // + (prettyprint (Mandala (shapelist.Tail))) 
+        | Circle (x, y) -> "(Mandala (Circle (" + x.ToString() + ", " + y.ToString() + "))))" // + (prettyprint (Mandala (shapelist.Tail))) 
+        | Square (x, y) -> "(Mandala (Square (" + x.ToString() + ", " + y.ToString() + "))))"
