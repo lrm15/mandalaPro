@@ -328,5 +328,37 @@ illustrations for clarity. Demonstrate evaluation for at least one of your examp
 
 \section{Minimal Formal Grammar}
 
+\begin{verbatim}
+
+	<expr> ::= Empty 
+
+			| Mandala 
+
+	<empty> ::= epsilon 
+
+	<mandala> ::= <shape> 
+
+	<shape> ::= <circle>
+	      
+		      | <square>
+
+	<circle> ::= (<color> * <size>)
+
+	<square> ::= (<color> * <size>)
+
+	<size> ::= <num>
+
+	<num> ::= v is an element of the natural numbers 
+
+	<color> ::= <blue>
+
+	          | <green> 
+			  
+			  | <red>
+
+
+\end{verbatim}
+
+
 % DO NOT DELETE ANYTHING BELOW THIS LINE
 \end{document}
