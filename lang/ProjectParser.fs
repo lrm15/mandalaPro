@@ -5,17 +5,17 @@ open Parser
 (* A primitive type representing permissible colors *)
 type Color = 
 | Blue 
-// | Grey 
-// | Indigo 
+| Grey 
+| Indigo 
 | Green
-// | Turquoise
-// | Blueviolet
+| Turquoise
+| Blueviolet
 | Red
-// | White
-// | Pink
-// | Purple
-// | Yellow 
-// | Black 
+| White
+| Pink
+| Purple
+| Yellow 
+| Black 
 
 (* A primitive type representing the size of a shape *)
 type Size = 
@@ -42,12 +42,68 @@ let pexpr, pexprImpl = recparser()
 let pblue = pstr "blue" |>> (fun _ -> Blue)
 
 (*
+ * Helper method to parse the color grey. 
+ *
+ * @param   A string. 
+ * @return  The Color Grey. 
+ *)
+let pgrey = pstr "grey" |>> (fun _ -> Grey)
+
+(*
+ * Helper method to parse the color indigo. 
+ *
+ * @param   A string. 
+ * @return  The Color Indigo. 
+ *)
+let pindigo = pstr "indigo" |>> (fun _ -> Indigo)
+
+(*
+ * Helper method to parse the color turquoise. 
+ *
+ * @param   A string. 
+ * @return  The Color Turquoise. 
+ *)
+let pturquoise = pstr "turquoise" |>> (fun _ -> Turquoise)
+
+(*
+ * Helper method to parse the color blueviolet. 
+ *
+ * @param   A string. 
+ * @return  The Color Blueviolet. 
+ *)
+let pblueviolet = pstr "blueviolet" |>> (fun _ -> Blueviolet)
+
+(*
  * Helper method to parse the color red. 
  *
  * @param   A string. 
  * @return  The Color Red. 
  *)
 let pred = pstr "red" |>> (fun _ -> Red)
+
+(*
+ * Helper method to parse the color white. 
+ *
+ * @param   A string. 
+ * @return  The Color White. 
+ *)
+let pwhite = pstr "white" |>> (fun _ -> White)
+
+(*
+ * Helper method to parse the color pink. 
+ *
+ * @param   A string. 
+ * @return  The Color Pink. 
+ *)
+let ppink = pstr "pink" |>> (fun _ -> Pink)
+
+(*
+ * Helper method to parse the color purple. 
+ *
+ * @param   A string. 
+ * @return  The Color Purple. 
+ *)
+let ppurple = pstr "purple" |>> (fun _ -> Purple)
 
 (*
  * Helper method to parse the color green. 
@@ -57,13 +113,30 @@ let pred = pstr "red" |>> (fun _ -> Red)
  *)
 let pgreen = pstr "green" |>> (fun _ -> Green)
 
+(*
+ * Helper method to parse the color yellow. 
+ *
+ * @param   A string. 
+ * @return  The Color Yellow. 
+ *)
+let pyellow = pstr "yellow" |>> (fun _ -> Yellow)
+
+(*
+ * Helper method to parse the color black. 
+ *
+ * @param   A string. 
+ * @return  The Color Black. 
+ *)
+let pblack = pstr "black" |>> (fun _ -> Black)
+
+
 (* 
  * Helper method to parse any permissible color. 
  * 
  * @param    A string.  
  * @return   A Color. 
  *)
-let pcolor = pblue <|> pred <|> pgreen 
+let pcolor = pblue <|> pred <|> pgreen <|> pgrey <|> pindigo <|> pturquoise <|> pblueviolet <|> pwhite <|> ppink <|> ppurple <|> pyellow <|> pblack
 
 (*
  * Helper method to parse the fill color for a shape. 
