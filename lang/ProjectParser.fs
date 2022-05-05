@@ -307,3 +307,4 @@ let rec prettyprint(e: Expr) : string =
         match shape with 
         | Circle (x, y) -> "(Mandala (Circle (" + x.ToString() + ", " + y.ToString() + "))))" // + (prettyprint (Mandala (shapelist.Tail))) 
         | Square (x, y) -> "(Mandala (Square (" + x.ToString() + ", " + y.ToString() + "))))"
+        | Triangle (x, y) -> "(Mandala (Triangle (" + x.ToString() + ", " + y.ToString() + "))))"
