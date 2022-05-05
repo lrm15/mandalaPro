@@ -9,7 +9,7 @@ type Color =
 | Indigo 
 | Green
 | Turquoise
-| Blueviolet
+// | Blueviolet
 | Red
 | White
 | Pink
@@ -71,7 +71,7 @@ let pturquoise = pstr "turquoise" |>> (fun _ -> Turquoise)
  * @param   A string. 
  * @return  The Color Blueviolet. 
  *)
-let pblueviolet = pstr "blueviolet" |>> (fun _ -> Blueviolet)
+// let pblueviolet = pstr "blueviolet" |>> (fun _ -> Blueviolet)
 
 (*
  * Helper method to parse the color red. 
@@ -136,7 +136,7 @@ let pblack = pstr "black" |>> (fun _ -> Black)
  * @param    A string.  
  * @return   A Color. 
  *)
-let pcolor = pblue <|> pred <|> pgreen <|> pgrey <|> pindigo <|> pturquoise <|> pblueviolet <|> pwhite <|> ppink <|> ppurple <|> pyellow <|> pblack
+let pcolor = pblue <|> pred <|> pgreen <|> pgrey <|> pindigo <|> pturquoise <|> pwhite <|> ppink <|> ppurple <|> pyellow <|> pblack // <|> pblueviolet 
 
 (*
  * Helper method to parse the fill color for a shape. 
