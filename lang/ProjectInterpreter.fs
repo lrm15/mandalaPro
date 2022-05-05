@@ -24,3 +24,6 @@ let rec eval (e: Expr option) : string =
             | Square (color, num) -> 
                 match (color, num) with 
                 | (Color, Num (x)) -> "\t<rect x='" + (string 150) + "' y='" + (string 150) + "' width='" + (string x) + "' height='" + (string x) + "' stroke='" + (string Color).ToLower() + "' fill='none' />\n"
+            | Triangle (color, num) -> 
+                match (color, num) with 
+                | (Color, Num (x)) -> "\t<polygon points = " (string 250) + " " + (string (250 + (x / 2))) + " ," + (string (250 + (x / 2))) + " " + (string (250 - (x / 2))) + ", " + (string (250 - (x / 2))) + " " + (string (250 - (x / 2))) + "' stroke='" + (string Color).ToLower() + "' fill='none' />\n"  

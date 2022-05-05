@@ -25,6 +25,7 @@ type Size =
 type Shape = 
 | Circle of Color * Size
 | Square of Color * Size 
+| Triangle of Color * Size 
 
 (* A combining form representing a mandala *)
 type Expr = 
@@ -238,6 +239,22 @@ let psquare =
         )
 
 (* 
+ * A helper method to parse a Triangle and the parameters for the Triangle constructor. 
+ * 
+ * @param    A string. 
+ * @return   A Triangle with the specified color and size. 
+ *)
+let ptriangle = 
+    pbetween 
+        (pstr "Triangle (")
+        (pchar ')')
+        (pseq 
+            (pstrokecolor)
+            (psize)
+            (fun (x, y) -> Triangle (x, y))
+        )
+
+(* 
  * A helper method to parse an empty Mandala. 
  * 
  * @param    A string. 
@@ -252,7 +269,7 @@ let pempty =
  * @param    A string. 
  * @return   A Shape. 
  *)
-let pshape = pcircle <|> psquare 
+let pshape = pcircle <|> psquare <|> ptriangle
 
 (* 
  * A helper method to parse a Mandala of Expr type. A Mandala consists of a Shape and its specifications. 
