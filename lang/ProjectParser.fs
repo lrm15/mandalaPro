@@ -214,7 +214,7 @@ let psize =
  *)
 let pcircle = 
     pbetween 
-        (pstr "Circle (")
+        ((pstr "Circle (") <|> (pstr " Circle ("))
         (pchar ')')
         (pseq 
             (pstrokecolor)
@@ -230,7 +230,7 @@ let pcircle =
  *)
 let psquare = 
     pbetween 
-        (pstr "Square (")
+        ((pstr "Square (") <|> (pstr " Square ("))
         (pchar ')')
         (pseq 
             (pstrokecolor)
@@ -246,7 +246,7 @@ let psquare =
  *)
 let ptriangle = 
     pbetween 
-        (pstr "Triangle (")
+        ((pstr "Triangle (") <|> (pstr " Triangle (")) 
         (pchar ')')
         (pseq 
             (pstrokecolor)
