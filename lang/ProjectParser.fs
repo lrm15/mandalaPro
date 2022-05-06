@@ -160,7 +160,7 @@ let pfillcolor =
 let pstrokecolor =
     pbetween 
         (pstr "stroke_color = '")
-        (pstr "'; ")
+        ((pstr "'; ") <|> (pstr "'"))
         pcolor 
 
 (* 
@@ -183,7 +183,7 @@ let pnumber =
 let psize = 
     pbetween 
         (pstr "size = ")
-        (pchar ';')
+        ((pstr ";") <|> (pstr "")) 
         pnumber
 
 (*
