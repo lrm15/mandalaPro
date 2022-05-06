@@ -12,8 +12,9 @@ open System
  *)
 let extractExpr (e: Expr option) : Expr = 
     match e with 
-    | e when e.IsSome = false -> Empty 
+    // | e when e.IsSome = false -> Empty 
     | e when e.IsSome = true -> e.Value 
+    | _ -> Empty 
 
 (* 
  * Method to evaluate the output from the parser. Translates the parser output to an SVG file to generate a Mandala. 
@@ -28,13 +29,9 @@ let rec eval (e: Expr) : string =
             match xs with 
             | x::xs' -> 
                 match x with 
-                | Circle (color, num) -> 
-                    match (color, num) with 
-                    | (Color, Num (x)) -> "\t<circle cx='" + (string 250) + "' cy='" + (string 250) + "' r='" + (string x) + "' fill='none' stroke='" + (string Color).ToLower() + "' />\n" + (eval (Mandala (xs')))
-                | Square (color, num) -> 
-                    match (color, num) with 
-                    | (Color, Num (x)) -> "\t<rect x='" + (string (250 - (x / 2))) + "' y='" + (string (250 - (x / 2))) + "' width='" + (string x) + "' height='" + (string x) + "' stroke='" + (string Color).ToLower() + "' fill='none' />\n" + (eval (Mandala (xs')))
-                | Triangle (color, num) -> 
-                    match (color, num) with 
-                    | (Color, Num (x)) -> "\t<polygon points = '" + (string 250) + " " + (string (250 + (x / 2))) + ", " + (string (250 + (x / 2))) + " " + (string (250 - (x / 2))) + ", " + (string (250 - (x / 2))) + " " + (string (250 - (x / 2))) + "' stroke='" + (string Color).ToLower() + "' fill='none' />\n" + (eval (Mandala (xs')))
+                | Circle (color, Num (x)) -> "\t<circle cx='" + (string 250) + "' cy='" + (string 250) + "' r='" + (string x) + "' fill='none' stroke='" + (string color).ToLower() + "' />\n" + (eval (Mandala (xs')))
+                | Square (color, Num (x)) -> "\t<rect x='" + (string (250 - (x / 2))) + "' y='" + (string (250 - (x / 2))) + "' width='" + (string x) + "' height='" + (string x) + "' stroke='" + (string color).ToLower() + "' fill='none' />\n" + (eval (Mandala (xs')))
+                | Triangle (color, Num (x)) -> "\t<polygon points = '" + (string 250) + " " + (string (250 + (x / 2))) + ", " + (string (250 + (x / 2))) + " " + (string (250 - (x / 2))) + ", " + (string (250 - (x / 2))) + " " + (string (250 - (x / 2))) + "' stroke='" + (string color).ToLower() + "' fill='none' />\n" + (eval (Mandala (xs')))
             | _ -> ""
+
+
