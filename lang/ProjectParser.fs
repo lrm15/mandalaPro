@@ -26,6 +26,7 @@ type Shape =
 | Circle of Color * Size
 | Square of Color * Size 
 | Triangle of Color * Size 
+| Diamond of Color * Size 
 
 (* A combining form representing a mandala *)
 type Expr = 
@@ -186,26 +187,6 @@ let psize =
         ((pstr ";") <|> (pstr "")) 
         pnumber
 
-(*
- * Helper method to parse the color and size information for a shape. 
- * ex: Circle (fill_color = 'blue'; stroke_color = 'black'; size = 100;)
- * 
- * @param 
- * @return  
- *)
-// let pcircle = 
-//     pbetween 
-//         (pstr "Circle (")
-//         (pchar ')')
-//         (pseq 
-//             (psize)
-//             (pseq 
-//                 (pfillcolor)
-//                 (pstrokecolor)
-//                //  (psize)
-//                 (fun (x, y) -> (x, y)))                
-//             (fun (x, (y, z)) -> Circle (x, y, z)))
-
 (* 
  * A helper method to parse a Circle and the parameters for the Circle constructor. 
  * 
@@ -255,6 +236,22 @@ let ptriangle =
         )
 
 (* 
+ * A helper method to parse a Diamond and the parameters for the Diamond constructor. 
+ * 
+ * @param    A string. 
+ * @return   A Diamond with the specified color and size. 
+ *)
+let pdiamond = 
+    pbetween 
+        ((pstr "Diamond (") <|> (pstr " Diamond (")) 
+        (pchar ')')
+        (pseq 
+            (pstrokecolor)
+            (psize)
+            (fun (x, y) -> Diamond (x, y))
+        )
+
+(* 
  * A helper method to parse an empty Mandala. 
  * 
  * @param    A string. 
@@ -269,8 +266,14 @@ let pempty =
  * @param    A string. 
  * @return   A Shape. 
  *)
-let pshape = pcircle <|> psquare <|> ptriangle
+let pshape = pcircle <|> psquare <|> ptriangle <|> pdiamond
 
+(* 
+ * Helper method to parse a list of shapes and return a Mandala object consisting of those shapes. 
+ * 
+ * @param    A string. 
+ * @return   A Mandala. 
+ *)
 let pmandalahelper = 
     pmany1 pshape |>> (fun xs -> Mandala (xs)) 
 
@@ -285,8 +288,6 @@ let pmandala =
         (pstr "Mandala {")
         (pchar '}')
         pmandalahelper 
-
-// pshape |>> (fun x -> Mandala (x))
 
 pexprImpl := pmandala
 
@@ -319,6 +320,7 @@ let rec prettyprint(e: Expr) : string =
             | Circle (x, y) -> "(Mandala (Circle (" + x.ToString() + ", " + y.ToString() + "))))" + (prettyprint (Mandala (xs')))// + (prettyprint (Mandala (shapelist.Tail))) 
             | Square (x, y) -> "(Mandala (Square (" + x.ToString() + ", " + y.ToString() + "))))" + (prettyprint (Mandala (xs')))
             | Triangle (x, y) -> "(Mandala (Triangle (" + x.ToString() + ", " + y.ToString() + "))))" +  (prettyprint (Mandala (xs')))
+            | Diamond (x, y) -> "(Mandala (Diamond (" + x.ToString() + ", " + y.ToString() + "))))" + (prettyprint (Mandala (xs')))
         | _ -> ""
 
 

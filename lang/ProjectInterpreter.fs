@@ -32,6 +32,7 @@ let rec eval (e: Expr) : string =
                 | Circle (color, Num (x)) -> "\t<circle cx='" + (string 250) + "' cy='" + (string 250) + "' r='" + (string x) + "' fill='none' stroke='" + (string color).ToLower() + "' />\n" + (eval (Mandala (xs')))
                 | Square (color, Num (x)) -> "\t<rect x='" + (string (250 - (x / 2))) + "' y='" + (string (250 - (x / 2))) + "' width='" + (string x) + "' height='" + (string x) + "' stroke='" + (string color).ToLower() + "' fill='none' />\n" + (eval (Mandala (xs')))
                 | Triangle (color, Num (x)) -> "\t<polygon points = '" + (string 250) + " " + (string (250 + (x / 2))) + ", " + (string (250 + (x / 2))) + " " + (string (250 - (x / 2))) + ", " + (string (250 - (x / 2))) + " " + (string (250 - (x / 2))) + "' stroke='" + (string color).ToLower() + "' fill='none' />\n" + (eval (Mandala (xs')))
+                | Diamond (color, Num (x)) -> "\t<polygon points = '" + (string 250) + " " + (string (250 - (x / 2))) + ", " + (string (250 + (x / 2))) + " " + (string 250) + ", " + (string 250) + " " + (string (250 + (x / 2))) + ", " + (string (250 - (x / 2))) + " " + (string 250) + "' stroke='" + (string color).ToLower() + "' fill='none' />\n" + (eval (Mandala (xs')))
             | _ -> ""
 
 
