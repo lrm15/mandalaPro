@@ -1,0 +1,8 @@
+<svg version='1.1'
+	 width='500' height='500'
+	 xmlns='http://www.w3.org/2000/svg'>
+	<circle cx='250' cy='250' r='250' fill='none' stroke='blue' />
+	<rect x='200' y='200' width='100' height='100' stroke='red' fill='none' />
+	<polygon points = '250 275, 275 225, 225 225' stroke='green' fill='none' />
+
+</svg>

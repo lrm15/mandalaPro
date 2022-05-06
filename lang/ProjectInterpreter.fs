@@ -37,4 +37,4 @@ let rec eval (e: Expr) : string =
                 | Triangle (color, num) -> 
                     match (color, num) with 
                     | (Color, Num (x)) -> "\t<polygon points = '" + (string 250) + " " + (string (250 + (x / 2))) + ", " + (string (250 + (x / 2))) + " " + (string (250 - (x / 2))) + ", " + (string (250 - (x / 2))) + " " + (string (250 - (x / 2))) + "' stroke='" + (string Color).ToLower() + "' fill='none' />\n" + (eval (Mandala (xs')))
-                | _ -> ""
+            | _ -> ""
