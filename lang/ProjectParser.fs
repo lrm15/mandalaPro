@@ -30,7 +30,7 @@ type Shape =
 (* A combining form representing a mandala *)
 type Expr = 
 | Empty 
-| Mandala of Shape 
+| Mandala of Shape list 
 
 let pexpr, pexprImpl = recparser()
 
@@ -271,13 +271,22 @@ let pempty =
  *)
 let pshape = pcircle <|> psquare <|> ptriangle
 
+let pmandalahelper = 
+    pmany1 pshape |>> (fun xs -> Mandala (xs)) 
+
 (* 
  * A helper method to parse a Mandala of Expr type. A Mandala consists of a Shape and its specifications. 
  * 
  * @param    A string. 
  * @return   A Mandala. 
  *)
-let pmandala = pshape |>> (fun x -> Mandala (x))
+let pmandala = 
+    pbetween 
+        (pstr "Mandala {")
+        (pchar '}')
+        pmandalahelper 
+
+// pshape |>> (fun x -> Mandala (x))
 
 pexprImpl := pmandala
 
@@ -303,8 +312,15 @@ let parse(s) : Expr option =
 let rec prettyprint(e: Expr) : string =
     match e with
     | Empty -> ""
-    | Mandala(shape) -> 
-        match shape with 
-        | Circle (x, y) -> "(Mandala (Circle (" + x.ToString() + ", " + y.ToString() + "))))" // + (prettyprint (Mandala (shapelist.Tail))) 
-        | Square (x, y) -> "(Mandala (Square (" + x.ToString() + ", " + y.ToString() + "))))"
-        | Triangle (x, y) -> "(Mandala (Triangle (" + x.ToString() + ", " + y.ToString() + "))))"
+    | Mandala(xs) ->
+        match xs with 
+        | x::xs' -> 
+            match x with 
+            | Circle (x, y) -> "(Mandala (Circle (" + x.ToString() + ", " + y.ToString() + "))))" + (prettyprint (Mandala (xs')))// + (prettyprint (Mandala (shapelist.Tail))) 
+            | Square (x, y) -> "(Mandala (Square (" + x.ToString() + ", " + y.ToString() + "))))" + (prettyprint (Mandala (xs')))
+            | Triangle (x, y) -> "(Mandala (Triangle (" + x.ToString() + ", " + y.ToString() + "))))" +  (prettyprint (Mandala (xs')))
+        | _ -> ""
+
+
+
+     

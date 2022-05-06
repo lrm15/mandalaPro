@@ -20,7 +20,7 @@ let main argv =
         sw.WriteLine("<svg version='1.1'\n\t width='500' height='500'\n\t xmlns='http://www.w3.org/2000/svg'>")
 
         // sw.WriteLine(eval (Mandala (Circle (Blue, Num 100)))) 
-        sw.WriteLine(eval (parse input'))
+        sw.WriteLine(eval (extractExpr (parse input')))
         sw.WriteLine("</svg>") // end tag
 
     0
