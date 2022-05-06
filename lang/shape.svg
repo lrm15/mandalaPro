@@ -1,12 +1,7 @@
 <svg version='1.1'
 	 width='500' height='500'
 	 xmlns='http://www.w3.org/2000/svg'>
-	<circle cx='250' cy='250' r='250' fill='none' stroke='green' />
-	<polygon points = '250 150, 350 250, 250 350, 150 250' stroke='blue' fill='none' />
-	<circle cx='250' cy='250' r='150' fill='none' stroke='red' />
-	<rect x='200' y='200' width='100' height='100' stroke='green' fill='none' />
-	<circle cx='250' cy='250' r='50' fill='none' stroke='blue' />
-	<polygon points = '250 238, 262 250, 250 262, 238 250' stroke='red' fill='none' />
-	<circle cx='250' cy='250' r='12' fill='none' stroke='green' />
+	<circle cx='250' cy='250' r='250' fill='none' stroke='blue' />
+	<circle cx='250' cy='250' r='150' fill='none' stroke='turquoise' />
 
 </svg>
